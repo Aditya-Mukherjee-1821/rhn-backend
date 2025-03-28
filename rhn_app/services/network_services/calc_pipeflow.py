@@ -8,7 +8,8 @@ from rhn_app.services.network_services.create_sources import create_sources_from
 from rhn_app.services.network_services.create_sinks import create_sinks_from_df
 from rhn_app.services.network_services.create_connections import create_connections_from_df
 from rhn_app.services.network_services.constants import *
-
+from rhn_app.services.network_services.edit_junctions import edit_junctions_from_df
+from rhn_app.services.network_services.edit_sources import edit_sources_from_df
 def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
     # define variables for optimization
     # function for lower limit
@@ -16,7 +17,7 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
     e = upper_limit_temp
     iter = 0
     mid = (s+e)/2.0
-    prev_mid = mid
+    prev_mid = mid + 273.15
     t_net_flow_init_k_local = t_net_flow_init_k
     t_out_k_local = t_out_k
 
@@ -26,32 +27,43 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
         g = {}
         iter += 1
         mid = (s + e) / 2.0
-        t_net_flow_init_k_local=mid-5
-        t_out_k_local=mid
-        net = pp.create_empty_network(name="Data", fluid="water")
+        t_net_flow_init_k_local=mid-5 + 273.15
+        t_out_k_local=mid + 273.15
+        if iter==1:
+            net = pp.create_empty_network(name="Data", fluid="water")
 
-        # Run simulation
-        # Create junctions
-        print("Creating supply and return junctions...")
-        create_junctions_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
+            # Run simulation
+            # Create junctions
+            print("Creating supply and return junctions...")
+            create_junctions_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
 
-        # Create sources
-        print("Creating sources...")
-        create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
+            # Create sources
+            print("Creating sources...")
+            create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
 
-        # Create sinks
-        print("Creating sinks...")
-        create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
+            # Create sinks
+            print("Creating sinks...")
+            create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
 
-        # Create connections
-        print("Creating connections...")
-        create_connections_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
+            # Create connections
+            print("Creating connections...")
+            create_connections_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
 
-        # Run the pipeflow simulation
-        print("Running pipeflow simulation...")
-        net.junction.to_csv("output.txt")
-        pp.pipeflow(net, mode="sequential")
+            # Run the pipeflow simulation
+            print("Running pipeflow simulation...")
+            pp.pipeflow(net, mode="sequential")
+        else:
+            print("Creating supply and return junctions...")
+            edit_junctions_from_df(net, t_net_flow_init_k_local)
 
+            # Create sources
+            print("Creating sources...")
+            edit_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
+
+            # Run the pipeflow simulation
+            print("Running pipeflow simulation...")
+            pp.pipeflow(net, mode="sequential")
+        
         total_mdot_kg_per_s_INST = net.res_circ_pump_pressure.at[0,'mdot_flow_kg_per_s']+net.res_circ_pump_pressure.at[1,'mdot_flow_kg_per_s']
         
         # Calculate relative error
