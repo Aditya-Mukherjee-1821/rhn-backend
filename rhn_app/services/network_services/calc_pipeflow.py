@@ -15,8 +15,8 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
     s = 80.0
     e = upper_limit_temp
     iter = 0
-    mid = 0
-    
+    mid = (s+e)/2.0
+    prev_mid = mid
     t_net_flow_init_k_local = t_net_flow_init_k
     t_out_k_local = t_out_k
 
@@ -49,7 +49,8 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
 
         # Run the pipeflow simulation
         print("Running pipeflow simulation...")
-        pp.pipeflow(net, mode="hydraulics")
+        net.junction.to_csv("output.txt")
+        pp.pipeflow(net, mode="sequential")
 
         total_mdot_kg_per_s_INST = net.res_circ_pump_pressure.at[0,'mdot_flow_kg_per_s']+net.res_circ_pump_pressure.at[1,'mdot_flow_kg_per_s']
         
