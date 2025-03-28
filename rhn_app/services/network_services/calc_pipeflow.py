@@ -10,10 +10,11 @@ from rhn_app.services.network_services.create_connections import create_connecti
 from rhn_app.services.network_services.constants import *
 from rhn_app.services.network_services.edit_junctions import edit_junctions_from_df
 from rhn_app.services.network_services.edit_sources import edit_sources_from_df
+from rhn_app.services.model_limit.lower_limit import returnLowerLimit
 def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
     # define variables for optimization
     # function for lower limit
-    s = 80.0
+    s = returnLowerLimit()
     e = upper_limit_temp
     iter = 0
     mid = (s+e)/2.0

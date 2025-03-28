@@ -10,6 +10,8 @@ import pandas as pd
 import pandapipes as pp
 import numpy as np
 import math
+import os
+from rhn_app.services.time.obtain_col import obtain_time_and_col
 
 # Import data
 def import_data(sourcefile):
@@ -274,40 +276,46 @@ def calcTime(nodes,df_connection,source):
         i+=1
     return nodesTime
 
-sourcefile = '../data/Data.xlsx'
-df_heater,df_sink,df_connection,df_nodetype=import_data(sourcefile)
-nodes = createTree(df_heater,df_sink,df_connection,df_nodetype)
-# print("\n\n\nNodes:\nName\t\tparent\t\tChildren\n")
-# for node in nodes:
-#     print(node,nodes[node]['parent'],nodes[node]['children'],sep="          ")
-#sets the name column as indices for O(1) lookup
-df_heater.set_index('Name',inplace=True)
-df_sink.set_index('Name',inplace=True)
-df_connection.set_index('Name',inplace=True)
-df_nodetype.set_index('Name',inplace=True)
-col=9
-[nodes,T1,c1,T2,c2]=createRefinedTree(df_heater,df_sink,df_connection,df_nodetype,nodes,col-1)
-print(f'{T1}  {c1}\n{T2}  {c2}')
-calcMassFlowRate(nodes,T1,c1,T2,c2)
+def returnLowerLimit():
+    # Get the absolute path
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sourcefile = os.path.join(BASE_DIR, "data", "Data.xlsx")
+    df_heater,df_sink,df_connection,df_nodetype=import_data(sourcefile)
+    nodes = createTree(df_heater,df_sink,df_connection,df_nodetype)
+    # print("\n\n\nNodes:\nName\t\tparent\t\tChildren\n")
+    # for node in nodes:
+    #     print(node,nodes[node]['parent'],nodes[node]['children'],sep="          ")
+    #sets the name column as indices for O(1) lookup
+    df_heater.set_index('Name',inplace=True)
+    df_sink.set_index('Name',inplace=True)
+    df_connection.set_index('Name',inplace=True)
+    df_nodetype.set_index('Name',inplace=True)
+    col=obtain_time_and_col() + 1
+    print("Target col from lower limit", df_sink.loc["Junction-128285"].iloc[col - 2])
+    [nodes,T1,c1,T2,c2]=createRefinedTree(df_heater,df_sink,df_connection,df_nodetype,nodes,col-3)
+    print(f'{T1}  {c1}\n{T2}  {c2}')
+    return (T1 + T2) * 0.5
+    # calcMassFlowRate(nodes,T1,c1,T2,c2)
 
-nodesTime=calcTime(nodes,df_connection,'Sarfvik')
-print(nodesTime)
-maxTime=0
-maxEle=''
-for ele,data in nodesTime.items():
-    if nodesQM[ele]['m']>0.001:
-        maxEle=ele
-        maxTime=max(maxTime,data)
-print(ele,maxTime,sep="  ")
+    # nodesTime=calcTime(nodes,df_connection,'Sarfvik')
+    # print(nodesTime)
+    # maxTime=0
+    # maxEle=''
+    # for ele,data in nodesTime.items():
+    #     if nodesQM[ele]['m']>0.001:
+    #         maxEle=ele
+    #         maxTime=max(maxTime,data)
+    # print(ele,maxTime,sep="  ")
 
-nodesTime=calcTime(nodes,df_connection,'Kirkkonummi')
-print(nodesTime)
-maxTime=0
-maxEle=''
-for ele,data in nodesTime.items():
-    if nodesQM[ele]['m']>0.001:
-        maxEle=ele
-        maxTime=max(maxTime,data)
-print(ele,maxTime,sep="  ")
-# for col in range(7,31):
-    # createRefinedTree(df_heater,df_sink,df_connection,df_nodetype,nodes,col)
+    # nodesTime=calcTime(nodes,df_connection,'Kirkkonummi')
+    # print(nodesTime)
+    # maxTime=0
+    # maxEle=''
+    # for ele,data in nodesTime.items():
+    #     if nodesQM[ele]['m']>0.001:
+    #         maxEle=ele
+    #         maxTime=max(maxTime,data)
+    # print(ele,maxTime,sep="  ")
+    # for col in range(7,31):
+        # createRefinedTree(df_heater,df_sink,df_connection,df_nodetype,nodes,col)
+

@@ -1,10 +1,12 @@
 from rhn_app.services.network_services.constants import *
+from rhn_app.services.time.obtain_col import obtain_time_and_col
 import pandapipes as pp
 import pandas as pd
 
 def create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local):
     # define col
-    col = 10
+    col = obtain_time_and_col() + 1 - 2 # do it for the next hour
+    print("From creation of sinks", df_sink.iloc[3].iloc[col + 1])
     # demand in kW
     col_name=df_sink.columns[col]
     # Get number of sinks and connections
