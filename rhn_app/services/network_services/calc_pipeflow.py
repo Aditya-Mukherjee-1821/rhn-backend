@@ -103,6 +103,6 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
 
 
     # Convert to JSON string
-    response = json.dumps({"message" : "converged"})
+    response = json.dumps({'temp' : mid})
 
     return response

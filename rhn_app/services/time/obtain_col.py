@@ -8,6 +8,8 @@ def obtain_time_and_col():
     # Get current time in Finland
     finland_time = datetime.now(finland_tz)
 
+    if finland_time.hour == 23:
+        return 7
     col = finland_time.hour + 8
 
     return col
