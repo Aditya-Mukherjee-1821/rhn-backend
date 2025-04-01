@@ -75,5 +75,5 @@ def calcTime(net):
                 continue
             r_bfs[child]=min(r_bfs.get(child, float('inf')),child_w+w)
             bfs.add((r_bfs[child],child))
-    print(abs(maxTime/60.0))
+    #print(abs(maxTime/60.0))
     return maxTime
