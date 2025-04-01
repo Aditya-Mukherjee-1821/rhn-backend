@@ -10,13 +10,16 @@ from rhn_app.services.network_services.create_connections import create_connecti
 from rhn_app.services.network_services.constants import *
 from rhn_app.services.network_services.edit_junctions import edit_junctions_from_df
 from rhn_app.services.network_services.edit_sources import edit_sources_from_df
+from rhn_app.services.network_services.edit_sinks import edit_sinks_from_df
 from rhn_app.services.model_limit.lower_limit import returnLowerLimit
 from rhn_app.services.network_services.timeToReach import calcTime
-
+from rhn_app.services.network_services.create_network import create_network
 # Upgraded Solution
 
 def calc_pipeflow_from_df(net):
     # define variables for optimization
+    # net=pp.create_empty_network(name="Data",fluid='water')
+    # create_network(net)  # Initialize network
     # function for lower limit
     s = returnLowerLimit()
     e = upper_limit_temp
@@ -27,19 +30,26 @@ def calc_pipeflow_from_df(net):
     t_out_k_local = t_out_k
 
     print("Starting optimizer: ")
+    #create sinks 
+    print("Editing sinks (Accessing curr time slot)...")
+    edit_sinks_from_df(net)
+
     # Optimizer
     while s <= e and iter < 30:
+        print(f"{s}  {e}")
         iter += 1
         mid = (s + e) / 2.0
         t_net_flow_init_k_local=mid-5 + 273.15
         t_out_k_local=mid + 273.15
-        print("Creating supply and return junctions...")
+
+        # edits...
+        print("Editing supply and return junctions...")
         edit_junctions_from_df(net, t_net_flow_init_k_local)
 
         # Create sources
-        print("Creating sources...")
+        print("Editing sources...")
         edit_sources_from_df(net, t_out_k_local)
-
+        
         # Run the pipeflow simulation
         print("Running pipeflow simulation...")
         pp.pipeflow(net, mode="sequential")
@@ -47,8 +57,10 @@ def calc_pipeflow_from_df(net):
         total_mdot_kg_per_s_INST = net.res_circ_pump_pressure.at[0,'mdot_flow_kg_per_s']+net.res_circ_pump_pressure.at[1,'mdot_flow_kg_per_s']
         
         # Calculate relative error
+        print("Calculating error")
         error = abs(total_mdot_kg_per_s_INST - total_mdot_kg_per_s)
         #rel_error = error / total_mdot_kg_per_s
+        print(error)
         
         # Check convergence
         if error <= 0.1:  # 1% error tolerance
@@ -62,8 +74,10 @@ def calc_pipeflow_from_df(net):
         step = max(0.1, error / 10)  # Minimum step of 0.1, dynamically adjusted
         
         if total_mdot_kg_per_s_INST > total_mdot_kg_per_s:
+            print("update s")
             s = mid + step
         else:
+            print("update e")
             e = mid - step
         
         # Early exit if oscillation detected
@@ -72,15 +86,16 @@ def calc_pipeflow_from_df(net):
             break
         prev_mid = mid
         
+        print("s = ", s, "e = ", e)
         # Logging
         print(f"Temp = {mid:.2f}°C")
         print(f"\tObtained mdot: {total_mdot_kg_per_s_INST:.4f} kg/s")
         print(f"\tRequired mdot: {total_mdot_kg_per_s} kg/s")
-        print(f"\tTime: {abs(calcTime(net)/60.0)}")
+        # print(f"\tTime: {abs(calcTime(net)/60.0)}")
 
     # Extract time to reach farthest junction
-    time_to_reach = calcTime(net)
-    print(f"Time to reach farthest point {abs(time_to_reach)/60.0}")
+    # time_to_reach = calcTime(net)
+    # print(f"Time to reach farthest point {abs(time_to_reach)/60.0}")
     # Convert to JSON string
     response = json.dumps({'temp' : mid})
 

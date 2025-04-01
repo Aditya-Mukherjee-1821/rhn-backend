@@ -4,7 +4,7 @@ import numpy as np
 from datetime import datetime
 from statsmodels.tsa.arima.model import ARIMA
 
-def next_hour_prediction():  # Fixed typo in function name
+def read_data():  # Fixed typo in function name
     print("Applying modifications...")
 
     # Get the absolute path

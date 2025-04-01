@@ -15,7 +15,7 @@ from rhn_app.services.network_services.timeToReach import calcTime
 
 # Current Solution
 
-def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
+def calc_pipeflow_from_df_old(df_heater, df_sink, df_connection, df_nodetype):
     # define variables for optimization
     # function for lower limit
     s = returnLowerLimit()
