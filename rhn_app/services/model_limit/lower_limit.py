@@ -286,12 +286,15 @@ def returnLowerLimit():
     # for node in nodes:
     #     print(node,nodes[node]['parent'],nodes[node]['children'],sep="          ")
     #sets the name column as indices for O(1) lookup
+    col=obtain_time_and_col()+1
+    
     df_heater.set_index('Name',inplace=True)
     df_sink.set_index('Name',inplace=True)
     df_connection.set_index('Name',inplace=True)
     df_nodetype.set_index('Name',inplace=True)
-    col=obtain_time_and_col() + 1
-    print("Target col from lower limit", df_sink.loc["Junction-128285"].iloc[col - 2])
+    columns=list(df_sink.columns)
+    print(f'Target col from lower limit {columns[col-3]}')
+
     [nodes,T1,c1,T2,c2]=createRefinedTree(df_heater,df_sink,df_connection,df_nodetype,nodes,col-3)
     print(f'{T1}  {c1}\n{T2}  {c2}')
     return (T1 + T2) * 0.5

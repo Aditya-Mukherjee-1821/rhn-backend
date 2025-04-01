@@ -10,8 +10,7 @@ def next_hour_prediction():  # Fixed typo in function name
     # Get the absolute path
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     sourcefile = os.path.join(BASE_DIR, "data", "Data.xlsx")
-
-    # Read all sheets into separate dataframes
+    # Read all sheets into separate dataframes 
     df_heater = pd.read_excel(sourcefile, sheet_name=0)
     df_sink = pd.read_excel(sourcefile, sheet_name=1)
     df_connection = pd.read_excel(sourcefile, sheet_name=2)

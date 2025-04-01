@@ -58,7 +58,7 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
                                                 diameter_m=float(str(df_connection.at[j, 'Diameter [mm]']))/1000,
                                                 alpha_w_per_m2k=float(str(df_connection.at[j, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                                                 text_k=int(temp_ext_k),
-                                                name=str(df_connection.at[j,'Name'])+'_supply')
+                                                name=str(df_connection.at[j,'Name'].replace('-','_'))+'_supply')
 
                     pp.create_pipe_from_parameters(net,
                                                 from_junction=junction_return,
@@ -67,7 +67,7 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
                                                 diameter_m=float(str(df_connection.at[j, 'Diameter [mm]']))/1000,
                                                 alpha_w_per_m2k=float(str(df_connection.at[j, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                                                 text_k=int(temp_ext_k),
-                                                name=str(df_connection.at[j,'Name'])+'_supply')
+                                                name=str(df_connection.at[j,'Name'].replace('-','_'))+'_return')
             
                 elif str(df_connection.at[j, 'End Node']) == source_name:
 
@@ -86,7 +86,7 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
                                                 diameter_m=float(str(df_connection.at[j, 'Diameter [mm]']))/1000,
                                                 alpha_w_per_m2k=float(str(df_connection.at[j, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                                                 text_k=int(temp_ext_k),
-                                                name=str(df_connection.at[j,'Name'])+'_supply')
+                                                name=str(df_connection.at[j,'Name'].replace('-','_'))+'_supply')
 
                     pp.create_pipe_from_parameters(net,
                                                 from_junction=junction_return,
@@ -95,7 +95,7 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
                                                 diameter_m=float(str(df_connection.at[j, 'Diameter [mm]']))/1000,
                                                 alpha_w_per_m2k=float(str(df_connection.at[j, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                                                 text_k=int(temp_ext_k),
-                                                name=str(df_connection.at[j,'Name'])+'_supply')
+                                                name=str(df_connection.at[j,'Name'].replace('-','_'))+'_return')
             
     # Ericsson special case: Ericsson has only return connections;
     # Ericsson set as a slack node in the network.
@@ -127,7 +127,7 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
                 diameter_m=float(str(df_connection.at[i, 'Diameter [mm]']))/1000,
                 alpha_w_per_m2k=float(str(df_connection.at[i, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                 text_k=int(temp_ext_k),
-                name='Pipe_E_' + str(e_pipe_tracker)
+                name=str(df_connection.at[i,'Name'].replace('-','_')) + '_return'
                 )
             
             e_pipe_tracker += 1
@@ -146,7 +146,7 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
                 k_mm=.05,
                 alpha_w_per_m2k=float(str(df_connection.at[i, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                 text_k=int(temp_ext_k),
-                name='Pipe_E_' + str(i)
+                name=str(df_connection.at[i,'Name'].replace('-','_')) + '_return'
                 )
             
             e_pipe_tracker += 1

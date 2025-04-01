@@ -5,8 +5,9 @@ import pandas as pd
 
 def create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local):
     # define col
-    col = obtain_time_and_col() + 1 - 2 # do it for the next hour
-    print("From creation of sinks", df_sink.iloc[3].iloc[col + 1])
+    col = obtain_time_and_col()+1-2 # do it for the next hour
+    columns=list(df_sink.columns)
+    print(f'Target col from lower limit {columns[col]}')
     # demand in kW
     col_name=df_sink.columns[col]
     # Get number of sinks and connections
@@ -71,7 +72,7 @@ def create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g,
                     diameter_m=float(str(df_connection.at[k, 'Diameter [mm]']))/1000,
                     alpha_w_per_m2k=float(str(df_connection.at[k, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                     text_k=int(temp_ext_k),
-                    name=str(df_connection.at[k,'Name']+'_supply')
+                    name=str(df_connection.at[k,'Name'].replace('-','_'))+'_supply'
                     )
                 pp.create_pipe_from_parameters(net,
                     from_junction=sink_return,
@@ -80,7 +81,7 @@ def create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g,
                     diameter_m=float(str(df_connection.at[k, 'Diameter [mm]']))/1000,
                     alpha_w_per_m2k=float(str(df_connection.at[k, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                     text_k=int(temp_ext_k),
-                    name=str(df_connection.at[k,'Name']+'_return')
+                    name=str(df_connection.at[k,'Name'].replace('-','_'))+'_return'
                     ) 
 
             elif df_connection.at[k, "Start Node"] == sink_get:
@@ -97,7 +98,7 @@ def create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g,
                     diameter_m=float(str(df_connection.at[k, 'Diameter [mm]']))/1000,
                     alpha_w_per_m2k=float(str(df_connection.at[k, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                     text_k=int(temp_ext_k),
-                    name=str(df_connection.at[k,'Name']+'_supply')
+                    name=str(df_connection.at[k,'Name'].replace('-','_'))+'_supply'
                     )
                 pp.create_pipe_from_parameters(net,
                     from_junction=sink_return,
@@ -106,7 +107,7 @@ def create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g,
                     diameter_m=float(str(df_connection.at[k, 'Diameter [mm]']))/1000,
                     alpha_w_per_m2k=float(str(df_connection.at[k, 'Heat Transfer Coefficient [W/mK]'])), # W/mK from raw data
                     text_k=int(temp_ext_k),
-                    name=str(df_connection.at[k,'Name']+'_return')
+                    name=str(df_connection.at[k,'Name'].replace('-','_'))+'_return'
                     )  
             
         sink_tracker += 1

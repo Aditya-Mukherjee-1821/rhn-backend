@@ -11,6 +11,8 @@ from rhn_app.services.network_services.constants import *
 from rhn_app.services.network_services.edit_junctions import edit_junctions_from_df
 from rhn_app.services.network_services.edit_sources import edit_sources_from_df
 from rhn_app.services.model_limit.lower_limit import returnLowerLimit
+from rhn_app.services.network_services.timeToReach import calcTime
+
 def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
     # define variables for optimization
     # function for lower limit
@@ -59,7 +61,7 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
 
             # Create sources
             print("Creating sources...")
-            edit_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local)
+            edit_sources_from_df(net, t_out_k_local)
 
             # Run the pipeflow simulation
             print("Running pipeflow simulation...")
@@ -72,7 +74,7 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
         #rel_error = error / total_mdot_kg_per_s
         
         # Check convergence
-        if error <= 1.0:  # 1% error tolerance
+        if error <= 0.1:  # 1% error tolerance
             print("\nConverged!")
             print(f"Optimal Temp: {mid:.2f}°C")
             print(f"Obtained mdot: {total_mdot_kg_per_s_INST:.4f} kg/s")
@@ -97,11 +99,11 @@ def calc_pipeflow_from_df(df_heater, df_sink, df_connection, df_nodetype):
         print(f"Temp = {mid:.2f}°C")
         print(f"\tObtained mdot: {total_mdot_kg_per_s_INST:.4f} kg/s")
         print(f"\tRequired mdot: {total_mdot_kg_per_s} kg/s")
+        print(f"\tTime: {abs(calcTime(net)/60.0)}")
 
-    # Extract relevant mass flow rate values
-
-
-
+    # Extract time to reach farthest junction
+    time_to_reach = calcTime(net)
+    print(f"Time to reach farthest point {abs(time_to_reach)/60.0}")
     # Convert to JSON string
     response = json.dumps({'temp' : mid})
 
