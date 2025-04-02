@@ -1,11 +1,11 @@
 import math
+import json
 from sortedcontainers import SortedDict,SortedList
 
-def calcTime(net):
+def time_delay(net):
+    print("Running time delay!")
     #Single source longest path algorithm
-
     #Adjacency list creation
-
     # Create a mapping from junction index to junction name
     junction_mapping = net.junction['name'].to_dict()
     connections = net.pipe[['from_junction', 'to_junction', 'name','length_km','diameter_m']].copy()
@@ -76,4 +76,7 @@ def calcTime(net):
             r_bfs[child]=min(r_bfs.get(child, float('inf')),child_w+w)
             bfs.add((r_bfs[child],child))
     #print(abs(maxTime/60.0))
-    return maxTime
+
+    response = json.dumps({'time' : maxTime})
+
+    return response

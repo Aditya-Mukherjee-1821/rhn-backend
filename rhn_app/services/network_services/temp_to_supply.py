@@ -12,7 +12,6 @@ from rhn_app.services.network_services.edit_junctions import edit_junctions_from
 from rhn_app.services.network_services.edit_sources import edit_sources_from_df
 from rhn_app.services.network_services.edit_sinks import edit_sinks_from_df
 from rhn_app.services.model_limit.lower_limit import returnLowerLimit
-from rhn_app.services.network_services.timeToReach import calcTime
 from rhn_app.services.network_services.create_network import create_network
 # Upgraded Solution
 

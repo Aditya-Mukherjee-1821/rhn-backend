@@ -11,7 +11,7 @@ from rhn_app.services.network_services.constants import *
 from rhn_app.services.network_services.edit_junctions import edit_junctions_from_df
 from rhn_app.services.network_services.edit_sources import edit_sources_from_df
 from rhn_app.services.model_limit.lower_limit import returnLowerLimit
-from rhn_app.services.network_services.timeToReach import calcTime
+from backend.rhn_app.services.network_services.time_delay import time_delay
 
 # Current Solution
 
