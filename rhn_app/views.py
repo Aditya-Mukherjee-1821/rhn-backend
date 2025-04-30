@@ -11,9 +11,11 @@ class NextHourDataView(APIView):
         try:
             # Get the network from the app config
             net = apps.get_app_config('rhn_app').net
+            # best_mass_flows = apps.get_app_config('rhn_app').best_mass_flows
             print(f"📌 Accessing net in views.py, net ID: {id(net)}")  # Print ID
 
             response = calc_pipeflow_from_df(net)
+            # response = optimized_temp(best_mass_flows, net)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

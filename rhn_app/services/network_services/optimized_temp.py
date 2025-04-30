@@ -1,6 +1,9 @@
 import pandapipes as pp
+import json
 import pandas as pd
 from rhn_app.services.network_services.edit_sinks import edit_sinks_from_df
+
+# def optimized_temp(best_mass_flows, net):
 
 def calcPipeFlow(net,T1,T2):
     net.circ_pump_pressure.at[0,'t_flow_k']=T1
@@ -69,3 +72,7 @@ def gradDescOptimizer(net,
     
     optimized_temp={'Sarfvik':T1,'Kirkkonummi':T2}
     return optimized_temp
+
+    # response = json.dumps([{'temp' : mid}])
+
+    # return response
