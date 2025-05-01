@@ -1,0 +1,7 @@
+Django>=3.2  # or the version you're using
+djangorestframework
+django-cors-headers
+pandas
+numpy
+pandapipes
+sortedcontainers
