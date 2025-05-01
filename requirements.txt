@@ -6,3 +6,4 @@ numpy
 pandapipes
 sortedcontainers
 statsmodels
+openpyxl
