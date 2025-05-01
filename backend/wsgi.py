@@ -2,7 +2,7 @@ import os
 import sys
 
 # Absolute path where the ZIP file and model will be located
-zip_file_path = os.path.join(os.path.dirname(__file__), 'pandapipes.zip')
+zip_file_path = os.path.join(os.path.dirname(__file__), 'pandapipes-develop.zip')
 extract_to_path = os.path.join(os.path.dirname(__file__), 'custom_pandapipes')
 
 # Ensure the extraction folder exists
