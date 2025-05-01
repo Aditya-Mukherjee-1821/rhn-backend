@@ -3,7 +3,6 @@ djangorestframework
 django-cors-headers
 pandas
 numpy
-pandapipes==0.10.0
 sortedcontainers
 statsmodels
 openpyxl
