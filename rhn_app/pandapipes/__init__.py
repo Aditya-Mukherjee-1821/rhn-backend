@@ -4,7 +4,7 @@
 
 import importlib.metadata
 
-__version__ = importlib.metadata.version("pandapipes")
+__version__ = "local-0.1"
 __format_version__ = '0.10.1'
 
 import pandas as pd
