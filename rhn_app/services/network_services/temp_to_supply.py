@@ -1,6 +1,6 @@
 import json
 import pandas as pd
-from rhn_app import pandapipes as pp
+import pandapipes as pp
 import numpy as np
 import pandapipes.plotting as plot
 from rhn_app.services.network_services.create_junctions import create_junctions_from_df

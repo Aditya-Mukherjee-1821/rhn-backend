@@ -1,5 +1,5 @@
 import pandas as pd
-from rhn_app import pandapipes as pp
+import pandapipes as pp
 import numpy as np
 from rhn_app.services.network_services.create_junctions import create_junctions_from_df
 from rhn_app.services.network_services.create_sources import create_sources_from_df
