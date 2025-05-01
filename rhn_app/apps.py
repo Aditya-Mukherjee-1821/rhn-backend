@@ -18,7 +18,7 @@ class RhnAppConfig(AppConfig):
             if not initialized:  # Double-check inside lock 
                 from rhn_app.services.network_services.create_network import create_network
                 from rhn_app.services.model_limit.best_mass_flow import best_mass_flow
-                import pandapipes as pp
+                from rhn_app import pandapipes as pp
                 
                 self.net = pp.create_empty_network(name="Data", fluid="water")  # Create network
                 create_network(self.net)  # Initialize network

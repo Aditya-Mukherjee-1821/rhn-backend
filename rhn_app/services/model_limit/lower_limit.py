@@ -7,7 +7,7 @@
         d.  Energy requirement at child nodes
 """ 
 import pandas as pd
-import pandapipes as pp
+from rhn_app import pandapipes as pp
 import numpy as np
 import math
 import os

@@ -1,4 +1,4 @@
-import pandapipes as pp
+from rhn_app import pandapipes as pp
 import pandas as pd
 import os
 

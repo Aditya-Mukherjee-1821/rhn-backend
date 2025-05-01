@@ -1,6 +1,6 @@
 from rhn_app.services.network_services.constants import *
 from rhn_app.services.time.obtain_col import obtain_time_and_col
-import pandapipes as pp
+from rhn_app import pandapipes as pp
 import pandas as pd
 import os
 

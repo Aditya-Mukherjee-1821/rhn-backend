@@ -1,5 +1,5 @@
 from rhn_app.services.network_services.constants import *
-import pandapipes as pp
+from rhn_app import pandapipes as pp
 
 def create_junctions_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g, t_net_flow_init_k_local, t_out_k_local):
     ## Create pandapipes junctions from imported data.
