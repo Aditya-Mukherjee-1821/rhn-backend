@@ -7,3 +7,4 @@ sortedcontainers
 statsmodels
 openpyxl
 gunicorn
+pandapower
