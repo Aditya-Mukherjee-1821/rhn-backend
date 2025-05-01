@@ -13,11 +13,11 @@ import os
 pd.options.mode.chained_assignment = None  # default='warn'
 pp_dir = os.path.dirname(os.path.realpath(__file__))
 
-from pandapipes.properties.fluids import *
-from pandapipes.create import *
-from pandapipes.io.file_io import *
-from pandapipes.pipeflow import *
-from pandapipes.toolbox import *
-from pandapipes.pf.pipeflow_setup import *
-from pandapipes.std_types import *
-import pandapipes.plotting
+from rhn_app.pandapipes.properties.fluids import *
+from rhn_app.pandapipes.create import *
+from rhn_app.pandapipes.io.file_io import *
+from rhn_app.pandapipes.pipeflow import *
+from rhn_app.pandapipes.toolbox import *
+from rhn_app.pandapipes.pf.pipeflow_setup import *
+from rhn_app.pandapipes.std_types import *
+import rhn_app.pandapipes.plotting
