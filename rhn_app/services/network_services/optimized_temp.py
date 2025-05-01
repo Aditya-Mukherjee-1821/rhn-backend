@@ -1,4 +1,4 @@
-from rhn_app import pandapipes as pp
+import pandapipes as pp
 import json
 import pandas as pd
 from rhn_app.services.network_services.edit_sinks import edit_sinks_from_df
