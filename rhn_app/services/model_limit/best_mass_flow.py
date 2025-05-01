@@ -12,7 +12,7 @@ def best_mass_flow(net):
     for col in range(7,len(df_sink.columns)):
         total_demand=0
         for j in range(len(df_sink)):
-            total_demand+=float(str(df_sink.at[j,col]))
+            total_demand+=float(str(df_sink.at[j,df_sink.columns[col]]))
         if total_demand>max_total_demand:
             max_col=df_sink.columns[col]
             max_total_demand=total_demand
@@ -34,5 +34,5 @@ def best_mass_flow(net):
     for i in range(len(net.res_circ_pump_pressure)):
         req_mass_flow.append(net.res_circ_pump_pressure.at[i,'mdot_flow_kg_per_s'])
 
-    print(req_mass_flow)
+    print('best mass flows:\t',req_mass_flow)
     return req_mass_flow

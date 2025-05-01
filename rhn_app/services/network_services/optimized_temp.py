@@ -2,7 +2,7 @@ import pandapipes as pp
 import json
 import pandas as pd
 from rhn_app.services.network_services.edit_sinks import edit_sinks_from_df
-
+from rhn_app.services.model_limit.lower_limit import returnLowerLimit
 # def optimized_temp(best_mass_flows, net):
 
 def calcPipeFlow(net,T1,T2):
@@ -26,22 +26,22 @@ def calcPipeFlow(net,T1,T2):
 
 def gradDescOptimizer(net,
                      req_mass_flow, 
-                     lower_limit, 
                      learning_rate=0.3, tolerance=1.0, 
                      max_iters=1000, delta=0.5):
     
+    lower_limit = returnLowerLimit()
     #set demands for current time
     edit_sinks_from_df(net)
 
     m1_target=req_mass_flow[0]
     m2_target=req_mass_flow[1]
-    T1, T2 = lower_limit[0], lower_limit[1]
+    T1, T2 = 350,350#lower_limit+273, lower_limit+273
     history = []
 
     for i in range(max_iters):
-        print(T1,T2,end='\t')
+        print('Temp:\t',T1,T2,end='\t')
         m1, m2 = calcPipeFlow(net,T1, T2)
-        print(m1,m2)
+        print('Mass\t',m1,m2)
         
         # Compute error
         err1 = m1 - m1_target
@@ -71,8 +71,9 @@ def gradDescOptimizer(net,
         T2 -= learning_rate * grad_T2
     
     optimized_temp={'Sarfvik':T1,'Kirkkonummi':T2}
-    return optimized_temp
-
-    # response = json.dumps([{'temp' : mid}])
-
-    # return response
+    content = []
+    for key, value in optimized_temp.items():
+        content.append({key: value})
+    
+    response = json.dumps(content)
+    return response

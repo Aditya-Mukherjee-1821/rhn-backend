@@ -297,7 +297,7 @@ def returnLowerLimit():
 
     [nodes,T1,c1,T2,c2]=createRefinedTree(df_heater,df_sink,df_connection,df_nodetype,nodes,col-3)
     print(f'{T1}  {c1}\n{T2}  {c2}')
-    return (T1 + T2) * 0.5
+    return min(T1,T2)
     # calcMassFlowRate(nodes,T1,c1,T2,c2)
 
     # nodesTime=calcTime(nodes,df_connection,'Sarfvik')
