@@ -1,11 +1,11 @@
 Django>=3.2  # or the version you're using
 djangorestframework
 django-cors-headers
-pandas
-numpy
+pandas==2.2.2
+numpy==1.26.4
 sortedcontainers
-statsmodels
+statsmodels==0.14.4
 openpyxl
 gunicorn
-pandapower
+pandapower==2.14.9
 matplotlib
