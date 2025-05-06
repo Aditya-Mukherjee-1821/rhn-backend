@@ -25,7 +25,13 @@ SECRET_KEY = 'django-insecure-g_6u(&6jwrx2ve29&#8=(ew#hlvi=_5^w7y03i!_fckrpf$6*r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ["rhn-backend.onrender.com"]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://rhn-frontend.vercel.app/",  # replace with actual frontend URL
+]
 
 
 # Application definition
@@ -135,3 +141,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

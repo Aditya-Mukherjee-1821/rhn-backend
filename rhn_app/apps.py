@@ -2,7 +2,7 @@ from django.apps import AppConfig
 import threading
 import os
 
-# Define a global flag to ensure ready() runs only once
+# Global init lock and flag
 initialized = False
 lock = threading.Lock()
 
@@ -11,12 +11,16 @@ class RhnAppConfig(AppConfig):
     name = 'rhn_app'
 
     def ready(self):
+        # optional memory monitoring
+        # from rhn_app.utils.memory_monitor import start_monitor
+        # start_monitor()
+
         global initialized
         if initialized:
-            return  # Exit if already initialized
+            return
 
-        with lock:  # Thread-safe execution
-            if not initialized:  # Double-check inside lock 
+        with lock:
+            if not initialized:
                 from rhn_app.services.network_services.create_network import create_network
                 from rhn_app.services.model_limit.best_mass_flow import best_mass_flow
                 import pandapipes as pp
@@ -42,5 +46,5 @@ class RhnAppConfig(AppConfig):
                 self.net = pp.from_json(network)  # Load the existing network
                 self.best_mass_flows = best_mass_flow(self.net)  # Run downstream logic
 
-                initialized = True  # Mark as initialized
+                initialized = True
                 print(f"✅ Pandapipes network initialized ONCE in apps.py, net ID: {id(self.net)}")

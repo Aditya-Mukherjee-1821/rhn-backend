@@ -1,8 +1,6 @@
-import json
 import pandas as pd
 import pandapipes as pp
 import numpy as np
-import pandapipes.plotting as plot
 from rhn_app.services.network_services.create_junctions import create_junctions_from_df
 from rhn_app.services.network_services.create_sources import create_sources_from_df
 from rhn_app.services.network_services.create_sinks import create_sinks_from_df
