@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 import threading
+import os
 
 # Define a global flag to ensure ready() runs only once
 initialized = False
@@ -20,9 +21,26 @@ class RhnAppConfig(AppConfig):
                 from rhn_app.services.model_limit.best_mass_flow import best_mass_flow
                 import pandapipes as pp
                 
-                self.net = pp.create_empty_network(name="Data", fluid="water")  # Create network
-                create_network(self.net)  # Initialize network
-                self.best_mass_flows = best_mass_flow(self.net)
+                # This is for saving the network
+                # self.net = pp.create_empty_network(name="Data", fluid="water")  # Create network
+                # create_network(self.net)  # Initialize network
+                # #save it here
+                # base_dir = os.path.dirname(os.path.abspath(__file__))  # rhn_app/
+                # save_dir = os.path.join(base_dir, 'saved_networks')
+                # os.makedirs(save_dir, exist_ok=True)
+                # save_path = os.path.join(save_dir, 'regional_heating_network.json')
+                # pp.to_json(self.net, save_path)
+                # self.best_mass_flows = best_mass_flow(self.net)
+
+                #resuse it here 
+                base_dir = os.path.dirname(os.path.abspath(__file__))  # /.../rhn_app/
+                network = os.path.join(base_dir, 'saved_networks', 'regional_heating_network.json')
+
+                if not os.path.exists(network):
+                    raise FileNotFoundError(f"Network file not found at {network}. Please create and save the network first.")
+
+                self.net = pp.from_json(network)  # Load the existing network
+                self.best_mass_flows = best_mass_flow(self.net)  # Run downstream logic
 
                 initialized = True  # Mark as initialized
                 print(f"✅ Pandapipes network initialized ONCE in apps.py, net ID: {id(self.net)}")
