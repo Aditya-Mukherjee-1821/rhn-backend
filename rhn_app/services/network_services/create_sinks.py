@@ -34,12 +34,14 @@ def create_sinks_from_df(df_heater, df_sink, df_connection, df_nodetype, net, g,
                                                                             pn_bar=net_flow_p_bar,
                                                                             tfluid_k=t_net_flow_init_k_local,
                                                                             geodata=(sink_x,sink_y),
-                                                                            name=sink_get.replace('Junction-','Sink_') + '_supply')
+                                                                            name=sink_get.replace('Junction-','Sink_') + '_supply',
+                                                                            type="sink")
         g[sink_get.replace('Junction-','Sink_')+'_return']=pp.create_junction(net,
                                                                             pn_bar=net_return_p_bar,
                                                                             tfluid_k=t_net_return_init_k,
                                                                             geodata=(sink_x,sink_y-100),
-                                                                            name=sink_get.replace('Junction-','Sink_') + '_return')
+                                                                            name=sink_get.replace('Junction-','Sink_') + '_return',
+                                                                            type="sink")
         # Define sink
         pp.create_heat_consumer(net,
                                 from_junction=g[sink_get.replace('Junction-','Sink_')+'_supply'],
