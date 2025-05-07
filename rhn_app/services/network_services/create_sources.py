@@ -20,12 +20,14 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
                 pn_bar=net_flow_p_bar,
                 tfluid_k=t_net_flow_init_k_local+5,
                 geodata=source_pos_flow,
-                name=source_name + '_supply')
+                name=source_name + '_supply',
+                type="heater")
             g['%s_return' % source_name] = pp.create_junction(net,
                 pn_bar=net_return_p_bar-1,
                 tfluid_k=t_net_return_init_k,
                 geodata=source_pos_return,
-                name=source_name + '_return')
+                name=source_name + '_return',
+                type="heater")
             
             source_flow=g[source_name+'_supply']
             source_return=g[source_name+'_return']

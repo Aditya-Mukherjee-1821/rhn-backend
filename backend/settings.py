@@ -27,6 +27,10 @@ DEBUG = True
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# Allow all origins (for development)
+CORS_ALLOW_ALL_ORIGINS = True
+
+#ALLOWED_HOSTS = ["rhn-backend.onrender.com"]
 # ALLOWED_HOSTS = ["rhn-backend.onrender.com"]
 ALLOWED_HOSTS = ["*"]  # not safe for prod; use exact domains
 
