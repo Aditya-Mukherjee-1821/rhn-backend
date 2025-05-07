@@ -27,11 +27,14 @@ DEBUG = True
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ["rhn-backend.onrender.com"]
+# ALLOWED_HOSTS = ["rhn-backend.onrender.com"]
+ALLOWED_HOSTS = ["*"]  # not safe for prod; use exact domains
 
-CORS_ALLOWED_ORIGINS = [
-    "https://rhn-frontend.vercel.app/",  # replace with actual frontend URL
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://rhn-frontend.vercel.app/",  # replace with actual frontend URL
+# ]
+CORS_ALLOW_ALL_ORIGINS = True  # Not safe for production
+
 
 
 # Application definition
@@ -59,9 +62,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# Allow all origins (for development)
-CORS_ALLOW_ALL_ORIGINS = True 
 
 # Alternatively, allow specific frontend origins (for production)
 # CORS_ALLOWED_ORIGINS = [
