@@ -30,7 +30,7 @@ def gradDescOptimizer(net,
                      learning_rate=0.3, tolerance=2.0, 
                      max_iters=1000, delta=0.5):
     
-    lower_limit = returnLowerLimit()
+    # lower_limit = returnLowerLimit()
     #set demands for current time
     edit_sinks_from_df(net)
 
