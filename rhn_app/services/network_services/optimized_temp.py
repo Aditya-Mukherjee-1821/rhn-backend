@@ -27,7 +27,7 @@ def calcPipeFlow(net,T1,T2):
 
 def gradDescOptimizer(net,
                      req_mass_flow, 
-                     learning_rate=0.3, tolerance=1.0, 
+                     learning_rate=0.3, tolerance=2.0, 
                      max_iters=1000, delta=0.5):
     
     lower_limit = returnLowerLimit()

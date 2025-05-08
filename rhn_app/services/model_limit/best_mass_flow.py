@@ -20,6 +20,9 @@ def best_mass_flow(net):
     for j in range(len(net.heat_consumer)):
         net.heat_consumer.at[j,'qext_w']=float(str(df_sink.at[j,max_col]))*1000
     
+    for i in range(len(net.junction)):
+        net.junction.at[i,'tfluid_k']=373-5
+    
     for i in range(len(net.circ_pump_pressure)):
         net.circ_pump_pressure.at[i,'t_flow_k']=373
     
@@ -29,7 +32,7 @@ def best_mass_flow(net):
             net.junction.at[i,'tfluid_k']=float(str(net.res_junction.at[i,'t_k']))
             net.junction.at[i,'pn_bar']=float(str(net.res_junction.at[i,'p_bar']))
         pp.pipeflow(net,mode='sequential')
-    
+
     req_mass_flow=[]
     for i in range(len(net.res_circ_pump_pressure)):
         req_mass_flow.append(net.res_circ_pump_pressure.at[i,'mdot_flow_kg_per_s'])
