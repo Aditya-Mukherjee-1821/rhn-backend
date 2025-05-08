@@ -1,3 +1,5 @@
+import json
+import os
 import pandas as pd
 import pandapipes as pp
 import numpy as np
@@ -39,3 +41,46 @@ def create_network(net):
     # Run the pipeflow simulation
     print("Running pipeflow simulation...")
     pp.pipeflow(net, mode="sequential")
+    
+    junctions = {
+        net.junction.at[_, 'name']: {
+            "type": net.junction.at[_,"type"],
+            "x": float(str(net.junction_geodata.at[_, 'x'])),
+            "y": float(str(net.junction_geodata.at[_, 'y'])),
+            "t": float(str(net.res_junction.at[_, 't_k']))-273.15
+        }
+        for _, row in net.res_junction.iterrows()
+    }
+
+    # Get current file directory → rhn_app/services/network_services
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    rhn_app_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
+    save_dir = os.path.join(rhn_app_dir, 'saved_networks')
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Final JSON file path
+    json_path = os.path.join(save_dir, 'junctions.json')
+
+    # Save to JSON
+    with open(json_path, 'w') as f:
+        json.dump(junctions, f, indent=4)
+
+    print(f"✅ Saved junctions data to {json_path}")
+    
+    pipes = {
+    net.pipe.at[_, 'name']: {
+            "from": str(net.junction.at[int(net.pipe.at[_,"from_junction"]), 'name']),
+            "to": str(net.junction.at[int(net.pipe.at[_,"to_junction"]), 'name']),
+            "massflow": abs(float(str(net.res_pipe.at[_, 'mdot_from_kg_per_s'])))
+        }
+        for _, row in net.res_pipe.iterrows()
+    }
+
+    
+    json_path = os.path.join(save_dir, 'pipes.json')
+
+    # Save to JSON
+    with open(json_path, 'w') as f:
+        json.dump(pipes, f, indent=4)
+
+    print(f"✅ Saved pipes data to {json_path}")
