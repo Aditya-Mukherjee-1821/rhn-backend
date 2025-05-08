@@ -47,7 +47,7 @@ def create_network(net):
             "type": net.junction.at[_,"type"],
             "x": float(str(net.junction_geodata.at[_, 'x'])),
             "y": float(str(net.junction_geodata.at[_, 'y'])),
-            "t": float(str(net.res_junction.at[_, 't_k']))-273.15
+            "t": 0.0
         }
         for _, row in net.res_junction.iterrows()
     }
@@ -71,7 +71,7 @@ def create_network(net):
     net.pipe.at[_, 'name']: {
             "from": str(net.junction.at[int(net.pipe.at[_,"from_junction"]), 'name']),
             "to": str(net.junction.at[int(net.pipe.at[_,"to_junction"]), 'name']),
-            "massflow": abs(float(str(net.res_pipe.at[_, 'mdot_from_kg_per_s'])))
+            "massflow": 0.0
         }
         for _, row in net.res_pipe.iterrows()
     }
