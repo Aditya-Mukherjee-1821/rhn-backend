@@ -10,7 +10,7 @@ def create_sources_from_df(df_heater, df_sink, df_connection, df_nodetype, net, 
     # Get source connections and create source nodes
     for i in range(len(df_heater)):
         
-        if str(df_heater.iloc[i,0]) != "Ericsson": # Ericsson special case below
+        if str(df_heater.iloc[i,0]) != "Ericsson" and df_heater.at[i,'state']==1: # Ericsson special case below
             source_name = str(df_heater.iloc[i,0])
             # Define supply and return flow network sources
             source_row=df_nodetype.loc[df_nodetype['Name']==source_name]
