@@ -9,8 +9,8 @@ def obtain_time_and_col():
     finland_time = datetime.now(finland_tz)
 
     if finland_time.hour == 23:
-        return 7
-    col = finland_time.hour + 8
+        return 8
+    col = finland_time.hour + 9
 
-    return col
+    return col  
 
