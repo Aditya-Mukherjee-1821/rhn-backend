@@ -15,7 +15,7 @@ def create_junctions_from_df(df_heater, df_sink, df_connection, df_nodetype, net
     # Iterate over all nodes to find and create junctions
     for i in range(num_nodes):
 
-        if df_nodetype.at[i, 'Node Type'] == "Junction":
+        if df_nodetype.at[i, 'Node Type'] == "Junction" and df_nodetype.at[i,'state']==1:
             
             # Replace dashes with underscores to conform with Python markup
             junction_name = str(df_nodetype.at[i, 'Name']).replace("Junction-",
