@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import NextHourDataView, TimeDelayView, GraphView
+from .views import NextHourDataView, TimeDelayView, GraphView, UploadView
 
 urlpatterns = [
 
     path("next_hour/", NextHourDataView.as_view(), name="next_one_hour_data_view"),
     path("time_delay/", TimeDelayView.as_view(), name="time_delay_view"),
-    path("graph/", GraphView.as_view(), name = "graph_view")
+    path("graph/", GraphView.as_view(), name = "graph_view"),
+    path("upload/", UploadView.as_view(), name = "upload_view")
 ]

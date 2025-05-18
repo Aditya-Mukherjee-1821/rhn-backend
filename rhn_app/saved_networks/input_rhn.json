@@ -1,6 +1,16 @@
 {
   "heater": [
     {
+      "Name": "Heater1",
+      "Node Type": "Source/Heater",
+      "Max output rate [kW]": 40000,
+      "Type": "Biomass boiler",
+      "Cost for kW for 55 \u00b0C output": 1000,
+      "Cost for kW for 67 \u00b0C output": 1200,
+      "Cost for kW for 80 \u00b0C output": 1500,
+      "state": 1
+    },
+    {
       "Name": "Sarfvik",
       "Node Type": "Source/Heater",
       "Max output rate [kW]": 40000,
@@ -28,6 +38,16 @@
       "Cost for kW for 55 \u00b0C output": "??",
       "Cost for kW for 67 \u00b0C output": "??",
       "Cost for kW for 80 \u00b0C output": "??",
+      "state": 1
+    },
+    {
+      "Name": "Heater4",
+      "Node Type": "Source/Heater",
+      "Max output rate [kW]": 40000,
+      "Type": "Biomass boiler",
+      "Cost for kW for 55 \u00b0C output": 1000,
+      "Cost for kW for 67 \u00b0C output": 1200,
+      "Cost for kW for 80 \u00b0C output": 1500,
       "state": 1
     }
   ],
@@ -24400,9 +24420,22 @@
       "state": 1
     },
     {
-      "Name": "Pipe-58425",
+      "Name": "Pipe-5842569",
       "Start Node": "Junction-2040",
       "End Node": "Kirkkonummi",
+      "Length [m]": 3.68,
+      "Heat Transfer Coefficient [W/mK]": 0.355,
+      "Diameter [mm]": 263.0,
+      "Has Supply Line": true,
+      "Has Return Line": true,
+      "Capacity [kW]": 20264,
+      "Capacity [kg/s]": 96.72553699284008,
+      "state": 1
+    },
+    {
+      "Name": "Pipe-58425",
+      "Start Node": "Junction-2040",
+      "End Node": "Heater4",
       "Length [m]": 3.68,
       "Heat Transfer Coefficient [W/mK]": 0.355,
       "Diameter [mm]": 263.0,
@@ -30718,6 +30751,19 @@
       "state": 1
     },
     {
+      "Name": "Pipe-10285469",
+      "Start Node": "Heater1",
+      "End Node": "Junction-6737",
+      "Length [m]": 370.59,
+      "Heat Transfer Coefficient [W/mK]": 0.404,
+      "Diameter [mm]": 393.8,
+      "Has Supply Line": true,
+      "Has Return Line": true,
+      "Capacity [kW]": 58221,
+      "Capacity [kg/s]": 277.90453460620523,
+      "state": 1
+    },
+    {
       "Name": "Pipe-102913",
       "Start Node": "Junction-101660",
       "End Node": "Junction-58617",
@@ -33944,8 +33990,16 @@
   ],
   "nodetype": [
     {
+      "Name": "Heater1",
+      "X-Coordinate": 367446.819826857,
+      "Y-Coordinate": 6671074.75145703,
+      "Z-Coordinate (Elevation)": 20.5968475341796,
+      "Node Type": "Source/Heater",
+      "state": 1
+    },
+    {
       "Name": "Sarfvik",
-      "X-Coordinate": 366746.819826857,
+      "X-Coordinate": 367446.819826857,
       "Y-Coordinate": 6670874.75145703,
       "Z-Coordinate (Elevation)": 20.5968475341796,
       "Node Type": "Source/Heater",
@@ -33953,8 +34007,16 @@
     },
     {
       "Name": "Kirkkonummi",
-      "X-Coordinate": 357050.92578125,
+      "X-Coordinate": 358000.92578125,
       "Y-Coordinate": 6667510.8984375,
+      "Z-Coordinate (Elevation)": 6.22218084335327,
+      "Node Type": "Source/Heater",
+      "state": 1
+    },
+    {
+      "Name": "Heater4",
+      "X-Coordinate": 358000.92578125,
+      "Y-Coordinate": 6667810.8984375,
       "Z-Coordinate (Elevation)": 6.22218084335327,
       "Node Type": "Source/Heater",
       "state": 1
